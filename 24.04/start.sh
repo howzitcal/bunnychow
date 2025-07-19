@@ -66,7 +66,7 @@ if [[ $debug == "yes" ]]; then
 fi
 echo "----------------------------------------------------"
 
-trap 'echo -e "\nOperation cancelled. Goodbye :)"; exit 1' INT
+trap 'echo -e "\nExiting. Goodbye :)"; exit 1' INT
 echo "Press ENTER to Proceed or Ctrl+C to exit..."
 read
 
