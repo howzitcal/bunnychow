@@ -3,7 +3,7 @@
 # Global Vars
 DOWNLOAD_PATH=$HOME/Downloads/tmp
 OS_VERSION=24.04 LTS
-BC_VERSION=0.4.7
+BC_VERSION=0.5.7
 
 # Fetch all the named args
 while [ $# -gt 0 ]; do
@@ -20,7 +20,7 @@ clear
 
 echo "----------------------------------------------------"
 echo "Welcome to bunnychow $OS_VERSION (v$BC_VERSION)"
-if [ -n "$apt_remove" ]; then
+if [ -n "$debs" ]; then
   echo "=> The following will be installed:"
   echo " -> debs: $debs"
 fi
@@ -180,7 +180,11 @@ if [ -n "$flatpaks" ]; then
 fi
 
 if [[ $dark_theme == "yes" ]]; then
-  echo "install dark theme"
+  plasma-apply-lookandfeel -a org.kde.breezedark.desktop --resetLayout
+  flatpak install --noninteractive -y org.gtk.Gtk3theme.Adwaita-dark
+  sudo flatpak override --env=GTK_THEME=Adwaita-dark
+  wget -c https://raw.githubusercontent.com/howzitcal/bunnychow/refs/heads/main/24.04/wallpaper.jpg -O ~/Pictures/wallpaper.jpg
+  plasma-apply-wallpaperimage ~/Pictures/wallpaper.jpg
 fi
 
 echo "=> CLEAN UP"
