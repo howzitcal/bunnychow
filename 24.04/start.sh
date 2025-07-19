@@ -3,7 +3,7 @@
 # Global Vars
 DOWNLOAD_PATH=$HOME/Downloads/tmp
 OS_VERSION=24.04 LTS
-BC_VERSION=0.5.15
+BC_VERSION=0.5.16
 
 # Fetch all the named args
 while [ $# -gt 0 ]; do
@@ -105,6 +105,8 @@ fi
 
 if [ -n "$snaps" ]; then
   echo "=> INSTALLING SNAPS"
+  # fixes snap curcor
+  echo "export XCURSOR_THEME=Breeze" >> $HOME/.profile
   sudo apt-get install -yq snapd
   IFS=',' read -ra app_list <<< "$snaps"
   for app in "${app_list[@]}"; do
@@ -202,14 +204,14 @@ a\
 a\
 launchers=
 }' ~/.config/plasma-org.kde.plasma.desktop-appletsrc
-  killall plasmashell && kstart5 plasmashell &
+  killall plasmashell && kstart5 plasmashell > /dev/null
 fi
 
 echo "=> CLEAN UP"
 sudo apt autoremove -yq
 rm -rf $DOWNLOAD_PATH
 
-# clear
+clear
 
 echo "*****************************************************"
 echo "Complete, please logout/reboot to see flatpaks"
