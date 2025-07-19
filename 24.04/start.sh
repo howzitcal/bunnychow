@@ -3,7 +3,7 @@
 # Global Vars
 DOWNLOAD_PATH=$HOME/Downloads/tmp
 OS_VERSION=24.04 LTS
-BC_VERSION=0.5.10
+BC_VERSION=0.5.11
 
 # Fetch all the named args
 while [ $# -gt 0 ]; do
@@ -191,8 +191,14 @@ if [[ $dark_theme == "yes" ]]; then
 fi
 
 if [[ $neaten == "yes" ]]; then
-  sed -i 's/launchers=.*/launchers=/g' ~/.config/plasma-org.kde.plasma.desktop-appletsrc
-  killall plasmashell kstart5 plasmashell
+  sed -i '/plugin=org. kde.plasma. icontasks/{
+s/.*/plugin=org.kde.plasma.icontasks/;
+a\
+[Containments][2][Applets][5][Configuration][General];
+a\
+Launchers=
+}' ~/.config/plasma-org.kde.plasma.desktop-appletsrc
+  killall plasmashell && kstart5 plasmashell &
 fi
 
 echo "=> CLEAN UP"
