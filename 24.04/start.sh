@@ -3,7 +3,7 @@
 # Global Vars
 DOWNLOAD_PATH=$HOME/Downloads/tmp
 OS_VERSION=24.04 LTS
-BC_VERSION=0.2.7
+BC_VERSION=0.3.7
 
 # Fetch all the named args
 while [ $# -gt 0 ]; do
@@ -46,7 +46,32 @@ fi
 if [[ $install_drivers == "yes" ]]; then
   echo "=> missing drivers will be installed (ubuntu-drivers)"
 fi
+if [ -n "$git_username" ]; then
+  echo "=> git user.name set to $git_username"
+fi
+if [ -n "$git_useremail" ]; then
+  echo "=> git user.email set to $git_useremail"
+fi
+if [[ $gen_ssh == "yes" ]]; then
+  echo "a ssh certificate will be generated"
+fi
 echo "----------------------------------------------------"
+
+mkdir -p $DOWNLOAD_PATH
+
+if [[ $gen_ssh == "yes" ]]; then
+  ssh-keygen -f $HOME/.ssh/id_rsa -N ""
+fi
+
+if [ -n "$git_username" ]; then
+  sudo apt-get install -yq git
+  git config --global user.name "$git_username"
+fi
+
+if [ -n "$git_useremail" ]; then
+  sudo apt-get install -yq git
+  git config --global user.email "$git_useremail"
+fi
 
 echo "=> APT UPDATE AND UPGRADE"
 sudo apt-get update
