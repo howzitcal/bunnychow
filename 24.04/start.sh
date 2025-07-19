@@ -3,7 +3,7 @@
 # Global Vars
 DOWNLOAD_PATH=$HOME/Downloads/tmp
 OS_VERSION=24.04 LTS
-VERSION=0.2.3
+BC_VERSION=0.2.4
 
 # Fetch all the named args
 while [ $# -gt 0 ]; do
@@ -19,7 +19,7 @@ done
 clear
 
 echo "----------------------------------------------------"
-echo "Welcome to bunnychow $OS_VERSION (v$VERSION)"
+echo "Welcome to bunnychow $OS_VERSION (v$BC_VERSION)"
 echo "=> The following will be installed:"
 echo " -> debs: $debs"
 if [ -n "$flatpaks" ]; then
