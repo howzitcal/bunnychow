@@ -3,7 +3,7 @@
 # Global Vars
 DOWNLOAD_PATH=$HOME/Downloads/tmp
 OS_VERSION=24.04 LTS
-BC_VERSION=0.2.6
+BC_VERSION=0.2.7
 
 # Fetch all the named args
 while [ $# -gt 0 ]; do
@@ -25,11 +25,11 @@ if [ -n "$apt_remove" ]; then
   echo " -> debs: $debs"
 fi
 if [ -n "$flatpaks" ]; then
-  echo "=> the follwoig flatpaks will be installed"
+  echo "=> the following flatpaks will be installed"
   echo " -> $flatpaks"
 fi
 if [ -n "$snaps" ]; then
-  echo "=> the follwoig snaps will be installed"
+  echo "=> the following snaps will be installed"
   echo " -> $snaps"
 fi
 if [ -n "$apt_install" ]; then
