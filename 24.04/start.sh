@@ -40,7 +40,7 @@ if [ -n "$apt_remove" ]; then
   echo "=> the following apt remove(s) will be invoked"
   echo " -> $apt_remove"
 fi
-if [[ $dark_theme =="yes" ]]; then
+if [[ $dark_theme == "yes" ]]; then
   echo "=> dark theme will be set"
 fi
 if [[ $install_drivers == "yes" ]]; then
