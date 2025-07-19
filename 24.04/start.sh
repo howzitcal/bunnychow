@@ -3,7 +3,7 @@
 # Global Vars
 DOWNLOAD_PATH=$HOME/Downloads/tmp
 OS_VERSION=24.04 LTS
-BC_VERSION=0.6.29
+BC_VERSION=0.6.30
 
 # Fetch all the named args
 while [ $# -gt 0 ]; do
@@ -85,6 +85,29 @@ fi
 if [ -n "$git_useremail" ]; then
   sudo apt-get install -yq git
   git config --global user.email "$git_useremail"
+fi
+
+if [[ $dark_theme == "yes" ]]; then
+  plasma-apply-lookandfeel -a org.kde.breezedark.desktop --resetLayout
+  kwriteconfig5 --file kdeglobals --group "EventSounds" --key "Volume" false
+  kwriteconfig5 --file kdeglobals --group "EventSounds" --key "NoSound" true
+  wget -c https://raw.githubusercontent.com/howzitcal/bunnychow/refs/heads/main/24.04/wallpaper.jpg -O ~/Pictures/wallpaper.jpg
+  plasma-apply-wallpaperimage ~/Pictures/wallpaper.jpg
+  sudo tee /etc/sddm.conf <<EOF
+[Theme]
+Current=breeze
+EOF
+fi
+
+if [[ $neaten == "yes" ]]; then
+  sed -i '/plugin=org.kde.plasma.icontasks/{
+s/.*/plugin=org.kde.plasma.icontasks/;
+a\
+[Containments][25][Applets][28][Configuration][General];
+a\
+launchers=
+}' ~/.config/plasma-org.kde.plasma.desktop-appletsrc
+  killall plasmashell && kstart5 plasmashell > /dev/null
 fi
 
 echo "=> APT UPDATE AND UPGRADE"
@@ -208,30 +231,6 @@ if [ -n "$flatpaks" ]; then
       flatpak install --noninteractive -y $app
   done
 fi
-
-if [[ $dark_theme == "yes" ]]; then
-  plasma-apply-lookandfeel -a org.kde.breezedark.desktop --resetLayout
-  kwriteconfig5 --file kdeglobals --group "EventSounds" --key "Volume" false
-  kwriteconfig5 --file kdeglobals --group "EventSounds" --key "NoSound" true
-  wget -c https://raw.githubusercontent.com/howzitcal/bunnychow/refs/heads/main/24.04/wallpaper.jpg -O ~/Pictures/wallpaper.jpg
-  plasma-apply-wallpaperimage ~/Pictures/wallpaper.jpg
-  sudo tee /etc/sddm.conf <<EOF
-[Theme]
-Current=breeze
-EOF
-fi
-
-if [[ $neaten == "yes" ]]; then
-  sed -i '/plugin=org.kde.plasma.icontasks/{
-s/.*/plugin=org.kde.plasma.icontasks/;
-a\
-[Containments][25][Applets][28][Configuration][General];
-a\
-launchers=
-}' ~/.config/plasma-org.kde.plasma.desktop-appletsrc
-  killall plasmashell && kstart5 plasmashell > /dev/null
-fi
-
 
 echo "=> CLEAN UP"
 sudo apt autoremove -yq
