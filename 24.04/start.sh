@@ -3,7 +3,7 @@
 # Global Vars
 DOWNLOAD_PATH=$HOME/Downloads/tmp
 OS_VERSION=24.04 LTS
-VERSION=0.2.1
+VERSION=0.2.2
 
 # Fetch all the named args
 while [ $# -gt 0 ]; do
@@ -41,7 +41,7 @@ fi
 if [[ $dark_theme ]]; then
   echo "=> dark theme will be set"
 fi
-if [[ $drivers ]]; then
+if [[ $install_drivers]]; then
   echo "=> will ask buuntu to install missing drivers"
 fi
 echo "----------------------------------------------------"
@@ -49,8 +49,9 @@ echo "----------------------------------------------------"
 echo "=> APT UPDATE AND UPGRADE"
 sudo apt-get update
 sudo apt-get upgrade -yq
+sudo snap refresh
 
-if [[ $drivers ]]; then
+if [[ $install_drivers]]; then
   sudo ubuntu-driver install
 fi
 
@@ -81,9 +82,9 @@ if [[ $debs =~ "vscode" ]]; then
   sudo install -D -o root -g root -m 644 packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg
   echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" | sudo tee /etc/apt/sources.list.d/vscode.list > /dev/null
   rm -f packages.microsoft.gpg
-  sudo apt install -yq apt-transport-https
+  sudo apt-get install -yq apt-transport-https
   sudo apt update
-  sudo apt install -yq code
+  sudo apt-get install -yq code
 fi
 
 # INSTALL: BRAVE
@@ -96,13 +97,13 @@ fi
 if [[ $debs =~ "chrome" ]]; then
   echo "=> INSATLLING CHROME"
   wget -c https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb -O $DOWNLOAD_PATH/chrome.deb
-  sudo apt install -yq $DOWNLOAD_PATH/chrome.deb
+  sudo apt-get install -yq $DOWNLOAD_PATH/chrome.deb
 fi
 
 # INSTALL: dbeaver
 if [[ $debs =~ "dbeaver" ]]; then
   wget -c https://dbeaver.io/files/dbeaver-ce_latest_amd64.deb -O $DOWNLOAD_PATH/dbeaver.deb
-  sudo apt install -yq $DOWNLOAD_PATH/dbeaver.deb
+  sudo apt-get install -yq $DOWNLOAD_PATH/dbeaver.deb
 fi
 
 # INSTALL: docker
@@ -125,12 +126,15 @@ if [[ $debs =~ "docker" ]]; then
   sudo usermod -aG docker $USER
 fi
 
+if [ -n "$debs" ]; then
+  echo "=> run fixes if needed"
+  sudo apt-get install -f
+fi
+
 if [ -n "$flatpaks" ]; then
   echo "=> INSATLLING flatpak, flathub and flatpak apps"
-  sudo apt -yq install flatpak
-  sudo apt -yq install gnome-software-plugin-flatpak
+  sudo apt-get install -yq flatpak kde-config-flatpak
   sudo flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-
 
   IFS=',' read -ra app_list <<< "$flatpaks"
   for app in "${app_list[@]}"; do
