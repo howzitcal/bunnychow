@@ -3,7 +3,7 @@
 # Global Vars
 DOWNLOAD_PATH=$HOME/Downloads/tmp
 OS_VERSION=24.04 LTS
-BC_VERSION=0.5.20
+BC_VERSION=0.5.21
 
 # Fetch all the named args
 while [ $# -gt 0 ]; do
@@ -58,6 +58,9 @@ fi
 if [[ $neaten == "yes" ]]; then
   echo "=> plasmashell will be neated and reloaded"
 fi
+if [[ $debug == "yes" ]]; then
+  echo "=> debug enabled"
+fi
 echo "----------------------------------------------------"
 
 mkdir -p $DOWNLOAD_PATH
@@ -102,13 +105,25 @@ if [ -n "$apt_install" ]; then
   done
 fi
 
+if [ -n "$flatpaks" ]; then
+  echo "=> installing flatpak and flathub"
+  sudo apt-get install -yq flatpak kde-config-flatpak plasma-discover-backend-flatpak
+  sudo flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+
+  if [[ $dark_theme == "yes" ]]; then
+    echo "=> fixing flatpak for dark mode"
+    flatpak install --noninteractive -y org.gtk.Gtk3theme.Adwaita-dark
+    sudo flatpak override --env=GTK_THEME=Adwaita-dark
+  fi
+fi
+
 if [ -n "$snaps" ]; then
   echo "=> INSTALLING SNAPS"
   sudo apt-get install -yq snapd
 
   sudo snap refresh snapd
   sudo systemctl restart snapd
-  
+
   # fixes snap curcor
   echo "export XCURSOR_THEME=Breeze" >> $HOME/.profile
   IFS=',' read -ra app_list <<< "$snaps"
@@ -178,21 +193,18 @@ fi
 
 if [ -n "$flatpaks" ]; then
   echo "=> INSATLLING flatpak, flathub and flatpak apps"
-  sudo apt-get install -yq flatpak kde-config-flatpak plasma-discover-backend-flatpak
-  sudo flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+
 
   IFS=',' read -ra app_list <<< "$flatpaks"
   for app in "${app_list[@]}"; do
-      sudo flatpak install --noninteractive -y $app
+      flatpak install --noninteractive -y $app
   done
 fi
 
 if [[ $dark_theme == "yes" ]]; then
+  plasma-apply-lookandfeel -a org.kde.breezedark.desktop --resetLayout
   kwriteconfig5 --file kdeglobals --group "EventSounds" --key "Volume" false
   kwriteconfig5 --file kdeglobals --group "EventSounds" --key "NoSound" true
-  plasma-apply-lookandfeel -a org.kde.breezedark.desktop --resetLayout
-  flatpak install --noninteractive -y org.gtk.Gtk3theme.Adwaita-dark
-  sudo flatpak override --env=GTK_THEME=Adwaita-dark
   wget -c https://raw.githubusercontent.com/howzitcal/bunnychow/refs/heads/main/24.04/wallpaper.jpg -O ~/Pictures/wallpaper.jpg
   plasma-apply-wallpaperimage ~/Pictures/wallpaper.jpg
   sudo tee /etc/sddm.conf <<EOF
