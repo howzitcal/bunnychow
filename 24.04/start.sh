@@ -3,7 +3,7 @@
 # Global Vars
 DOWNLOAD_PATH=$HOME/Downloads/tmp
 OS_VERSION=24.04 LTS
-BC_VERSION=0.6.23
+BC_VERSION=0.6.24
 
 # Fetch all the named args
 while [ $# -gt 0 ]; do
@@ -114,7 +114,7 @@ fi
 if [ -n "$flatpaks" ]; then
   echo "=> installing flatpak and flathub"
   sudo apt-get install -yq flatpak
-  flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+  sudo flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
   sudo apt-get install -yq kde-config-flatpak plasma-discover-backend-flatpak
 
   if [[ $dark_theme == "yes" ]]; then
