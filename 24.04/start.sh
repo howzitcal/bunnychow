@@ -3,7 +3,7 @@
 # Global Vars
 DOWNLOAD_PATH=$HOME/Downloads/tmp
 OS_VERSION=24.04 LTS
-BC_VERSION=0.5.13
+BC_VERSION=0.5.14
 
 # Fetch all the named args
 while [ $# -gt 0 ]; do
@@ -191,7 +191,7 @@ if [[ $dark_theme == "yes" ]]; then
   sudo tee /etc/sddm.conf <<EOF
 [Theme]
 Current=breeze
-  EOF
+EOF
 fi
 
 if [[ $neaten == "yes" ]]; then
