@@ -3,7 +3,7 @@
 # Global Vars
 DOWNLOAD_PATH=$HOME/Downloads/tmp
 OS_VERSION=24.04 LTS
-BC_VERSION=0.5.21
+BC_VERSION=0.6.21
 
 # Fetch all the named args
 while [ $# -gt 0 ]; do
@@ -236,5 +236,11 @@ else
 fi
 
 echo "*****************************************************"
-echo "Complete, please logout/reboot to see flatpaks"
+echo "Complete, please reboot for all the changes to take effect"
+echo "!! IT IS RECOMMENDED THAT YOU REBOOT IMMEDIATELY !!"
 echo "*****************************************************"
+
+echo "Press Enter to reboot or ctrl+c to cancel (not recommended)"
+read
+
+reboot
