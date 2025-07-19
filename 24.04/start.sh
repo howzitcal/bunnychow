@@ -3,7 +3,7 @@
 # Global Vars
 DOWNLOAD_PATH=$HOME/Downloads/tmp
 OS_VERSION=24.04 LTS
-BC_VERSION=0.5.17
+BC_VERSION=0.5.18
 
 # Fetch all the named args
 while [ $# -gt 0 ]; do
@@ -185,6 +185,8 @@ if [ -n "$flatpaks" ]; then
 fi
 
 if [[ $dark_theme == "yes" ]]; then
+  kwriteconfig5 --file kdeglobals --group "EventSounds" --key "Volume" false
+  kwriteconfig5 --file kdeglobals --group "EventSounds" --key "NoSound" true
   plasma-apply-lookandfeel -a org.kde.breezedark.desktop --resetLayout
   flatpak install --noninteractive -y org.gtk.Gtk3theme.Adwaita-dark
   sudo flatpak override --env=GTK_THEME=Adwaita-dark
@@ -206,6 +208,8 @@ launchers=
 }' ~/.config/plasma-org.kde.plasma.desktop-appletsrc
   killall plasmashell && kstart5 plasmashell > /dev/null
 fi
+
+
 
 echo "=> CLEAN UP"
 sudo apt autoremove -yq
