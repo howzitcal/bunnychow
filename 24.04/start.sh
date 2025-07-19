@@ -3,7 +3,7 @@
 # Global Vars
 DOWNLOAD_PATH=$HOME/Downloads/tmp
 OS_VERSION=24.04 LTS
-BC_VERSION=0.5.12
+BC_VERSION=0.5.13
 
 # Fetch all the named args
 while [ $# -gt 0 ]; do
@@ -188,6 +188,10 @@ if [[ $dark_theme == "yes" ]]; then
   sudo flatpak override --env=GTK_THEME=Adwaita-dark
   wget -c https://raw.githubusercontent.com/howzitcal/bunnychow/refs/heads/main/24.04/wallpaper.jpg -O ~/Pictures/wallpaper.jpg
   plasma-apply-wallpaperimage ~/Pictures/wallpaper.jpg
+  sudo tee /etc/sddm.conf <<EOF
+[Theme]
+Current=breeze
+  EOF
 fi
 
 if [[ $neaten == "yes" ]]; then
