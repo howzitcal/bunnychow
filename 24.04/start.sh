@@ -3,7 +3,7 @@
 # Global Vars
 DOWNLOAD_PATH=$HOME/Downloads/tmp
 OS_VERSION=24.04 LTS
-BC_VERSION=0.6.24
+BC_VERSION=0.6.25
 
 # Fetch all the named args
 while [ $# -gt 0 ]; do
@@ -244,6 +244,4 @@ echo "!! IT IS RECOMMENDED THAT YOU REBOOT IMMEDIATELY !!"
 echo "*****************************************************"
 
 echo "Press Enter to reboot or ctrl+c to cancel (not recommended)"
-read
-
-reboot
+read && reboot
