@@ -3,7 +3,7 @@
 # Global Vars
 DOWNLOAD_PATH=$HOME/Downloads/tmp
 OS_VERSION=24.04 LTS
-VERSION=0.2.2
+VERSION=0.2.3
 
 # Fetch all the named args
 while [ $# -gt 0 ]; do
@@ -41,7 +41,7 @@ fi
 if [[ $dark_theme ]]; then
   echo "=> dark theme will be set"
 fi
-if [[ $install_drivers]]; then
+if [[ $install_drivers ]]; then
   echo "=> will ask buuntu to install missing drivers"
 fi
 echo "----------------------------------------------------"
