@@ -3,7 +3,7 @@
 # Global Vars
 DOWNLOAD_PATH=$HOME/Downloads/tmp
 OS_VERSION=24.04 LTS
-BC_VERSION=0.5.9
+BC_VERSION=0.5.10
 
 # Fetch all the named args
 while [ $# -gt 0 ]; do
@@ -199,7 +199,7 @@ echo "=> CLEAN UP"
 sudo apt autoremove -yq
 rm -rf $DOWNLOAD_PATH
 
-clear
+# clear
 
 echo "*****************************************************"
 echo "Complete, please logout/reboot to see flatpaks"
