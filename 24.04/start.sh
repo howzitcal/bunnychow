@@ -3,7 +3,7 @@
 # Global Vars
 DOWNLOAD_PATH=$HOME/Downloads/tmp
 OS_VERSION=24.04 LTS
-BC_VERSION=0.5.19
+BC_VERSION=0.5.20
 
 # Fetch all the named args
 while [ $# -gt 0 ]; do
@@ -79,7 +79,6 @@ fi
 echo "=> APT UPDATE AND UPGRADE"
 sudo apt-get update
 sudo apt-get upgrade -yq
-sudo snap refresh
 
 if [[ $install_drivers == "yes" ]]; then
   sudo ubuntu-driver install
@@ -105,9 +104,13 @@ fi
 
 if [ -n "$snaps" ]; then
   echo "=> INSTALLING SNAPS"
+  sudo apt-get install -yq snapd
+
+  sudo snap refresh snapd
+  sudo systemctl restart snapd
+  
   # fixes snap curcor
   echo "export XCURSOR_THEME=Breeze" >> $HOME/.profile
-  sudo apt-get install -yq snapd
   IFS=',' read -ra app_list <<< "$snaps"
   for app in "${app_list[@]}"; do
      echo "-> installing snap $app"
