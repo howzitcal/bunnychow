@@ -3,7 +3,7 @@
 # Global Vars
 DOWNLOAD_PATH=$HOME/Downloads/tmp
 OS_VERSION=24.04 LTS
-BC_VERSION=0.5.8
+BC_VERSION=0.5.9
 
 # Fetch all the named args
 while [ $# -gt 0 ]; do
@@ -53,7 +53,10 @@ if [ -n "$git_useremail" ]; then
   echo "=> git user.email set to $git_useremail"
 fi
 if [[ $gen_ssh == "yes" ]]; then
-  echo "a ssh certificate will be generated"
+  echo "=> ssh key will be generated for $USER"
+fi
+if [[ $neaten == "yes" ]]; then
+  echo "=> plasmashell will be neated and reloaded"
 fi
 echo "----------------------------------------------------"
 
@@ -185,6 +188,11 @@ if [[ $dark_theme == "yes" ]]; then
   sudo flatpak override --env=GTK_THEME=Adwaita-dark
   wget -c https://raw.githubusercontent.com/howzitcal/bunnychow/refs/heads/main/24.04/wallpaper.jpg -O ~/Pictures/wallpaper.jpg
   plasma-apply-wallpaperimage ~/Pictures/wallpaper.jpg
+fi
+
+if [[ $neaten == "yes" ]]; then
+  sed -i 's/launchers=.*/launchers=/g' ~/.config/plasma-org.kde.plasma.desktop-appletsrc
+  killall plasmashell kstart5 plasmashell
 fi
 
 echo "=> CLEAN UP"
