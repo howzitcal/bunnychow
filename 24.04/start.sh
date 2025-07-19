@@ -2,8 +2,8 @@
 
 # Global Vars
 DOWNLOAD_PATH=$HOME/Downloads/tmp
-OS_VERSION=24.04 LTS (KUBUNTU)
-VERSION=0.2.0
+OS_VERSION=24.04 LTS
+VERSION=0.2.1
 
 # Fetch all the named args
 while [ $# -gt 0 ]; do
