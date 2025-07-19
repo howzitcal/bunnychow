@@ -3,7 +3,7 @@
 # Global Vars
 DOWNLOAD_PATH=$HOME/Downloads/tmp
 OS_VERSION=24.04 LTS
-BC_VERSION=0.5.14
+BC_VERSION=0.5.15
 
 # Fetch all the named args
 while [ $# -gt 0 ]; do
@@ -198,7 +198,7 @@ if [[ $neaten == "yes" ]]; then
   sed -i '/plugin=org.kde.plasma.icontasks/{
 s/.*/plugin=org.kde.plasma.icontasks/;
 a\
-[Containments][2][Applets][5][Configuration][General];
+[Containments][25][Applets][28][Configuration][General];
 a\
 launchers=
 }' ~/.config/plasma-org.kde.plasma.desktop-appletsrc
