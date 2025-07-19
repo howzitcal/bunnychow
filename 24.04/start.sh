@@ -3,7 +3,7 @@
 # Global Vars
 DOWNLOAD_PATH=$HOME/Downloads/tmp
 OS_VERSION=24.04 LTS
-BC_VERSION=0.6.21
+BC_VERSION=0.6.22
 
 # Fetch all the named args
 while [ $# -gt 0 ]; do
@@ -229,9 +229,7 @@ echo "=> CLEAN UP"
 sudo apt autoremove -yq
 rm -rf $DOWNLOAD_PATH
 
-if [[ $debug == "yes" ]]; then
-
-else
+if [[ $debug != "yes" ]]; then
   clear
 fi
 
