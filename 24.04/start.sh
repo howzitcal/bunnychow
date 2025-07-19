@@ -20,6 +20,9 @@ clear
 
 echo "----------------------------------------------------"
 echo "Welcome to bunnychow $OS_VERSION (v$BC_VERSION)"
+echo "The quick and easy CLI tool to get your kubuntu"
+echo "installation configured and ready to be productive!"
+echo "----------------------------------------------------"
 if [ -n "$debs" ]; then
   echo "=> The following will be installed:"
   echo " -> debs: $debs"
@@ -62,6 +65,9 @@ if [[ $debug == "yes" ]]; then
   echo "=> debug enabled"
 fi
 echo "----------------------------------------------------"
+
+echo "Press ENTER to Proceed or Ctrl+C to exit..."
+read || { echo "Operation cancelled. Goodbye :)"; exit 1; }
 
 mkdir -p $DOWNLOAD_PATH
 
