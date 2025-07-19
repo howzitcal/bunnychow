@@ -3,7 +3,7 @@
 # Global Vars
 DOWNLOAD_PATH=$HOME/Downloads/tmp
 OS_VERSION=24.04 LTS
-BC_VERSION=0.6.27
+BC_VERSION=0.6.28
 
 # Fetch all the named args
 while [ $# -gt 0 ]; do
@@ -69,7 +69,7 @@ echo "----------------------------------------------------"
 trap 'echo -e "\nExiting. Goodbye :)"; exit 1' INT
 echo "Press ENTER to Proceed or Ctrl+C to exit..."
 
-read
+read -r -p "" < /dev/tty || { echo "Operation cancelled. Goodbye :)"; exit 1; }
 
 mkdir -p $DOWNLOAD_PATH
 
@@ -247,4 +247,6 @@ echo "!! IT IS RECOMMENDED THAT YOU REBOOT IMMEDIATELY !!"
 echo "*****************************************************"
 
 echo "Press Enter to reboot or ctrl+c to exit..."
-read && reboot
+read -r -p "" < /dev/tty || { echo "Operation cancelled. Goodbye :)"; exit 1; }
+
+reboot
