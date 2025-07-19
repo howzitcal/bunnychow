@@ -3,7 +3,7 @@
 # Global Vars
 DOWNLOAD_PATH=$HOME/Downloads/tmp
 OS_VERSION=24.04 LTS
-BC_VERSION=0.2.4
+BC_VERSION=0.2.5
 
 # Fetch all the named args
 while [ $# -gt 0 ]; do
@@ -20,8 +20,10 @@ clear
 
 echo "----------------------------------------------------"
 echo "Welcome to bunnychow $OS_VERSION (v$BC_VERSION)"
-echo "=> The following will be installed:"
-echo " -> debs: $debs"
+if [ -n "$apt_remove" ]; then
+  echo "=> The following will be installed:"
+  echo " -> debs: $debs"
+fi
 if [ -n "$flatpaks" ]; then
   echo "=> the follwoig flatpaks will be installed"
   echo " -> $flatpaks"
@@ -38,11 +40,11 @@ if [ -n "$apt_remove" ]; then
   echo "=> the following apt remove(s) will be invoked"
   echo " -> $apt_remove"
 fi
-if [[ $dark_theme ]]; then
+if [[ $dark_theme =="yes" ]]; then
   echo "=> dark theme will be set"
 fi
-if [[ $install_drivers ]]; then
-  echo "=> will ask buuntu to install missing drivers"
+if [[ $install_drivers == "yes" ]]; then
+  echo "=> missing drivers will be installed (ubuntu-drivers)"
 fi
 echo "----------------------------------------------------"
 
@@ -51,7 +53,7 @@ sudo apt-get update
 sudo apt-get upgrade -yq
 sudo snap refresh
 
-if [[ $install_drivers]]; then
+if [[ $install_drivers == "yes" ]]; then
   sudo ubuntu-driver install
 fi
 
@@ -140,6 +142,10 @@ if [ -n "$flatpaks" ]; then
   for app in "${app_list[@]}"; do
       sudo flatpak install --noninteractive -y $app
   done
+fi
+
+if [[ $dark_theme == "yes" ]]; then
+  echo "install dark theme"
 fi
 
 echo "=> CLEAN UP"
