@@ -3,7 +3,7 @@
 # Global Vars
 DOWNLOAD_PATH=$HOME/Downloads/tmp
 OS_VERSION=24.04 LTS
-BC_VERSION=0.5.7
+BC_VERSION=0.5.8
 
 # Fetch all the named args
 while [ $# -gt 0 ]; do
@@ -101,12 +101,12 @@ if [ -n "$apt_install" ]; then
 fi
 
 if [ -n "$snaps" ]; then
-  echo "=> INSTALLIGN SNAPS"
+  echo "=> INSTALLING SNAPS"
   sudo apt-get install -yq snapd
   IFS=',' read -ra app_list <<< "$snaps"
   for app in "${app_list[@]}"; do
      echo "-> installing snap $app"
-     sudo snap isntall $app
+     sudo snap install $app
   done
 fi
 
