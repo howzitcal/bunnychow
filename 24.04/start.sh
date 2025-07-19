@@ -3,7 +3,7 @@
 # Global Vars
 DOWNLOAD_PATH=$HOME/Downloads/tmp
 OS_VERSION=24.04 LTS
-BC_VERSION=0.5.16
+BC_VERSION=0.5.17
 
 # Fetch all the named args
 while [ $# -gt 0 ]; do
@@ -175,7 +175,7 @@ fi
 
 if [ -n "$flatpaks" ]; then
   echo "=> INSATLLING flatpak, flathub and flatpak apps"
-  sudo apt-get install -yq flatpak kde-config-flatpak
+  sudo apt-get install -yq flatpak kde-config-flatpak plasma-discover-backend-flatpak
   sudo flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 
   IFS=',' read -ra app_list <<< "$flatpaks"
